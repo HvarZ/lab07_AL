@@ -13,10 +13,15 @@ service Echo {
   }
 }
 
-message HelloRequest {
-  string data = 1;
+message SuggestRequest {
+  string input = 1;
 }
 
-message HelloResponse {
-  string data = 1;
+message SuggestAnswer {
+  string text = 1;
+  uint32 position = 2;
+}
+
+message SuggestResponse {
+  repeated SuggestAnswer suggest_answer = 1;
 }
