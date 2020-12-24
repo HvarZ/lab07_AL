@@ -18,8 +18,8 @@ void from_json(const nlohmann::json& j, suggest::SuggestAnswer& answer) {
 }
 
 grpc::Status SuggestServiceAnswer::Answer(grpc::ServerContext* context,
-                                          const suggest::SuggestRequest* request,
-                                          suggest::SuggestResponse* response) {
+                                const suggest::SuggestRequest* request,
+                                    suggest::SuggestResponse* response) {
   nlohmann::json suggestions_sort = suggestions;
   std::sort(suggestions_sort.begin(), suggestions_sort.end(),
             [](const nlohmann::json& left, const nlohmann::json& right)
@@ -46,7 +46,8 @@ grpc::Status SuggestServiceAnswer::Answer(grpc::ServerContext* context,
 [[noreturn]] void SuggestServiceAnswer::ParseJson() {
   std::ifstream file;
   forever {
-    file.open("/Users/zahar/go/src/github.com/iu8-31-cpp-2020/lab07-HvarZ/suggestions.json");
+    file.open(
+"/Users/zahar/go/src/github.com/iu8-31-cpp-2020/lab07-HvarZ/suggestions.json");
     std::unique_lock<std::shared_mutex> lock(parse_mutex);
     suggestions = nlohmann::json::parse(file);
     lock.unlock();
