@@ -1,4 +1,4 @@
-// Copyright 2018 Your Name <your_email>
+// Copyright 2020 Zakhar Ushakov <hvarzahar@gmail.com>
 
 #ifndef INCLUDE_SUGGESTIONS_HPP_
 #define INCLUDE_SUGGESTIONS_HPP_
@@ -7,10 +7,12 @@
 #include <shared_mutex>
 #include <nlohmann/json.hpp>
 
+using nlohmann::json;
+
 class SuggestServiceAnswer : public suggest::Suggest::Service {
  private:
   std::shared_mutex parse_mutex;
-  nlohmann::json suggestions;
+  json suggestions;
 
   grpc::Status Answer(grpc::ServerContext* context,
                       const suggest::SuggestRequest* request,
