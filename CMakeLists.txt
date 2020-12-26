@@ -86,6 +86,14 @@ add_custom_command(
         ${PROTO_FILES}
         DEPENDS ${PROTO_FILES})
 
+add_custom_target(generate
+        DEPENDS
+        ${PROTO_GENERATED_SOURCES}
+        ${PROTO_GENERATED_HEADERS}
+        ${PROTO_GENERATED_GRPC_SOURCES}
+        ${PROTO_GENERATED_GRPC_HEADERS}
+        )
+
 add_library(lab07 STATIC
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/suggestions.cpp
         ${PROTO_GENERATED_SOURCES}
@@ -100,8 +108,10 @@ target_link_libraries(lab07 PUBLIC
         protobuf::libprotobuf
         nlohmann_json::nlohmann_json)
 
+
 add_executable(tests
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp)
+
 
 add_executable(grpc_service
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp sources/suggestions.cpp)
@@ -110,7 +120,10 @@ target_include_directories(grpc_service PRIVATE ${API_GENERATED_DIR})
 
 target_link_libraries(tests PRIVATE GTest::gtest_main lab07)
 
+
 target_link_libraries(grpc_service PUBLIC lab07)
+
+target_link_libraries(tests PRIVATE GTest::gtest_main lab07)
 
 enable_testing()
 add_test(NAME unit_tests COMMAND tests)
